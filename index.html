@@ -7,13 +7,11 @@
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Kalpurush&display=swap" rel="stylesheet">
 
   <!-- Flaticon Icons -->
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
-
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-brands/css/uicons-brands.css'>
   <style>
     
 @font-face {
@@ -78,7 +76,7 @@ header {
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300 px-6 py-8 grid md:grid-cols-4 gap-6">
+  <footer class="fixed bottom-0 left-0 w-full bg-gray-900 text-gray-300 px-6 py-8 grid md:grid-cols-4 gap-6">
     <div>
       <h3 class="text-white font-bold mb-2">বাংলা নিউজ</h3>
       <p>সর্বশেষ খবর, ব্রেকিং নিউজ এবং এপ্রকাশিত রিপোর্ট।</p>
@@ -103,12 +101,21 @@ header {
     <div>
       <h3 class="text-white font-bold mb-2">সামাজিক যোগাযোগ</h3>
       <div class="flex gap-4 text-xl">
-        <i class="fi fi-rr-facebook"></i>
-        <i class="fi fi-rr-twitter"></i>
-        <i class="fi fi-rr-youtube"></i>
+        <a href="https://www.facebook.com/profile.php?id=61579361978744"><i class="fi fi-brands-facebook"></i></a>
+        <i class="fi fi-brands-twitter-alt"></i>
+        <i class="fi fi-brands-youtube"></i>
+        <br>
+        
       </div>
+      <div class="mt-7 bg-gray-900 text-white">
+  &copy; 2025 Infonic. All rights reserved. Developed By <a href="https://ezionic.com/"><b>Ezionic</b></a>
+</div>
+      
     </div>
+    
+
   </footer>
+  
 
   <!-- Popup Modal -->
   <div id="newsModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
