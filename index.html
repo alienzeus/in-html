@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infonic - বাংলা নিউজ</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Kalpurush&display=swap" rel="stylesheet">
+
+  <!-- Flaticon Icons -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+  <style>
+    body { font-family: 'Kalpurush', sans-serif; }
+    .en { font-family: 'Poppins', sans-serif; }
+    .hidden { display: none; }
+    /* Header background only */
+header {
+  background: linear-gradient(135deg, #3a3f44, #1f1f1f);
+  color: #fff; /* ensures text stays visible */
+}
+
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="text-white p-4 flex justify-between items-center">
+    <img src="1.png" alt="i" class="h-10">
+    <div class="flex gap-4 items-center">
+      <button id="langToggle" class="bg-white text-red-600 px-3 py-1 rounded-lg text-sm font-semibold">EN</button>
+      <i class="fi fi-rr-user text-xl cursor-pointer"></i>
+    </div>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md px-6 py-3 flex justify-center gap-6">
+    <a href="#" class="hover:text-red-600">প্রচ্ছদ</a>
+    <a href="#" class="hover:text-red-600">জাতীয়</a>
+    <a href="#" class="hover:text-red-600">আন্তর্জাতিক</a>
+    <a href="#" class="hover:text-red-600">খেলাধুলা</a>
+    <a href="#" class="hover:text-red-600">বিনোদন</a>
+  </nav>
+
+  <!-- Featured Section -->
+  <section class="px-6 py-6">
+    <h2 class="text-xl font-bold border-b-2 border-red-600 pb-2 mb-4">ফিচার্ড খবর</h2>
+    <div id="featuredNews" class="grid md:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- Latest News -->
+  <section class="px-6 py-6">
+    <h2 class="text-xl font-bold border-b-2 border-red-600 pb-2 mb-4">সর্বশেষ খবর</h2>
+    <div id="latestNews" class="grid md:grid-cols-3 gap-6"></div>
+    <div class="text-center mt-6">
+      <button id="loadMore" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">আরও খবর দেখুন</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 px-6 py-8 grid md:grid-cols-4 gap-6">
+    <div>
+      <h3 class="text-white font-bold mb-2">বাংলা নিউজ</h3>
+      <p>সর্বশেষ খবর, ব্রেকিং নিউজ এবং এপ্রকাশিত রিপোর্ট।</p>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-2">ক্যাটাগরি</h3>
+      <ul>
+        <li>জাতীয়</li>
+        <li>আন্তর্জাতিক</li>
+        <li>খেলাধুলা</li>
+        <li>বিনোদন</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-2">লিংক</h3>
+      <ul>
+        <li>প্রাইভেসি পলিসি</li>
+        <li>যোগাযোগ</li>
+        <li>আমাদের সম্পর্কে</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-2">সামাজিক যোগাযোগ</h3>
+      <div class="flex gap-4 text-xl">
+        <i class="fi fi-rr-facebook"></i>
+        <i class="fi fi-rr-twitter"></i>
+        <i class="fi fi-rr-youtube"></i>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Popup Modal -->
+  <div id="newsModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+    <div class="bg-white max-w-2xl w-full p-6 rounded-lg shadow-lg relative">
+      <button id="closeModal" class="absolute top-3 right-3 text-gray-600 hover:text-red-600 text-xl">&times;</button>
+      <img id="modalImage" src="" class="w-full h-64 object-cover rounded-lg mb-4">
+      <h2 id="modalTitle" class="text-2xl font-bold mb-3"></h2>
+      <p id="modalBody" class="text-gray-700"></p>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbxXOhew0C7aDA7tKW3w50u8ORO6_ty3ezcLIN2GD-dDEQuCKOCKTRQcPAFZtnacyr83/exec"; // Replace with Apps Script URL
+    let newsData = [];
+    let lang = "bn";
+    let visibleCount = 6;
+
+    async function fetchNews() {
+      const res = await fetch(SHEET_URL);
+      newsData = await res.json();
+      renderNews();
+    }
+
+    function renderNews() {
+      const featured = newsData.slice(0, 3);
+      const latest = newsData.slice(3, visibleCount);
+
+      document.getElementById("featuredNews").innerHTML = featured.map(makeCard).join("");
+      document.getElementById("latestNews").innerHTML = latest.map(makeCard).join("");
+    }
+
+    function makeCard(item) {
+      const title = lang === "bn" ? item.title_bn : item.title_en;
+      return `
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <img src="${item.image}" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">${title}</h3>
+            <button onclick="openModal('${item.id}')" class="text-red-600 hover:underline">আরও পড়ুন</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function openModal(id) {
+      const item = newsData.find(n => n.id == id);
+      document.getElementById("modalImage").src = item.image;
+      document.getElementById("modalTitle").innerText = lang === "bn" ? item.title_bn : item.title_en;
+      document.getElementById("modalBody").innerText = lang === "bn" ? item.body_bn : item.body_en;
+      document.getElementById("newsModal").classList.remove("hidden");
+      document.getElementById("newsModal").classList.add("flex");
+    }
+
+    document.getElementById("closeModal").addEventListener("click", () => {
+      document.getElementById("newsModal").classList.add("hidden");
+    });
+
+    document.getElementById("loadMore").addEventListener("click", () => {
+      visibleCount += 6;
+      renderNews();
+    });
+
+    document.getElementById("langToggle").addEventListener("click", () => {
+      lang = lang === "bn" ? "en" : "bn";
+      document.getElementById("langToggle").innerText = lang === "bn" ? "EN" : "BN";
+      renderNews();
+    });
+
+    fetchNews();
+  </script>
+</body>
+</html>
