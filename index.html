@@ -15,14 +15,24 @@
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 
   <style>
-    body { font-family: 'Kalpurush', sans-serif; }
-    .en { font-family: 'Poppins', sans-serif; }
-    .hidden { display: none; }
-    /* Header background only */
-header {
-  background: linear-gradient(135deg, #3a3f44, #1f1f1f);
-  color: #fff; /* ensures text stays visible */
+    /* Ensure Kalpurush works everywhere */
+body, html {
+  font-family: 'Kalpurush', Arial, sans-serif !important;
+  -webkit-text-size-adjust: 100%; /* prevent font scaling on iOS */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
 }
+
+.en {
+  font-family: 'Poppins', Arial, sans-serif !important;
+}
+
+/* Force Bengali text specifically */
+[lang="bn"], .bn {
+  font-family: 'Kalpurush', Arial, sans-serif !important;
+}
+
 
   </style>
 </head>
